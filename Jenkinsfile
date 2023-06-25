@@ -12,7 +12,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/pravallikachukka/kubernetescode.git'
             }
         }
-        stage('docker build') {
+        stage('docker build image') {
             steps {
                 script {
                     echo 'build the docker image'
