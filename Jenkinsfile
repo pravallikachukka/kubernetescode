@@ -12,7 +12,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/pravallikachukka/kubernetescode.git'
             }
         }
-        stage('docker build image') {
+        stage('docker build') {
             steps {
                 script {
                     echo 'build the docker image'
@@ -32,6 +32,10 @@ pipeline {
                 echo 'push image'
                 sh 'docker push chukkap/flaskapp' + ":$BUILD_NUMBER"
             }
+        }
+        stage('Trigger ManifestUpdate') {
+            echo "triggering updatemanifestjob"
+            build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
         }
     }
 }
